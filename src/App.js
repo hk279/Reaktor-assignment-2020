@@ -2,6 +2,7 @@ import "./App.css";
 import "antd/dist/antd.css";
 import { Layout, Menu, Table, notification, PageHeader } from "antd";
 import { useState, useEffect } from "react";
+import useWindowDimensions from "./useWindowDimensions";
 
 const { Header, Content } = Layout;
 const { Column } = Table;
@@ -26,7 +27,7 @@ const App = () => {
             .catch((reason) => {
                 console.log(reason);
                 console.log("Refetching data");
-                setFetchError(true);
+                setFetchError(!fetchError);
             });
     }, [fetchError]);
 
@@ -117,6 +118,33 @@ const App = () => {
         });
     };
 
+    const { height, width } = useWindowDimensions();
+    let expandableConfig = {};
+
+    //Binds color and price columns to variables so they an be toggled off and shown in expanded row when the screen gets small enough.
+    let colorColumn = <Column title="Color" dataIndex="color" key="color"></Column>;
+    let priceColumn = <Column title="Price" dataIndex="price" key="price"></Column>;
+
+    //Color and price moved to the expanded row when screen width is less than 700px
+    if (width < 700) {
+        colorColumn = null;
+        priceColumn = null;
+        expandableConfig = {
+            expandedRowRender: (record) => (
+                <div className="expandedRow">
+                    <p className="expandedRowCell">
+                        <b>Color:</b>
+                    </p>
+                    <p className="expandedRowCell">{record.color}</p>
+                    <p className="expandedRowCell">
+                        <b>Price:</b>
+                    </p>
+                    <p className="expandedRowCell">{record.price}</p>
+                </div>
+            ),
+        };
+    }
+
     return (
         <Layout>
             <Header>
@@ -134,7 +162,13 @@ const App = () => {
             </Header>
             <Content className="content">
                 <PageHeader title="See product availability by clicking the ID"></PageHeader>
-                <Table dataSource={productData} rowKey="id" loading={isLoading}>
+                <Table
+                    dataSource={productData}
+                    rowKey="id"
+                    pagination={{ position: ["bottomCenter"] }}
+                    loading={isLoading}
+                    expandable={expandableConfig}
+                >
                     <Column
                         title="ID"
                         dataIndex="id"
@@ -155,8 +189,8 @@ const App = () => {
                         key="manufacturer"
                         sorter={(a, b) => a.manufacturer.localeCompare(b.manufacturer)}
                     ></Column>
-                    <Column title="Color" dataIndex="color" key="color"></Column>
-                    <Column title="Price" dataIndex="price" key="price"></Column>
+                    {colorColumn}
+                    {priceColumn}
                 </Table>
             </Content>
         </Layout>

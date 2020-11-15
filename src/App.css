@@ -2,5 +2,18 @@
     text-align: center;
 }
 .content {
-    padding: 3em;
+    padding: 2em;
+}
+.expandedRow {
+    display: flex;
+    flex-direction: row;
+}
+.expandedRowCell {
+    margin: 0;
+    flex: 1;
+}
+@media only screen and (max-width: 550px) {
+    .content {
+        padding: 0em;
+    }
 }

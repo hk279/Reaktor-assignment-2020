@@ -120,6 +120,7 @@ const App = () => {
 
     const { height, width } = useWindowDimensions();
     let expandableConfig = {};
+    let scrollConfig = {};
 
     //Binds color and price columns to variables so they an be toggled off and shown in expanded row when the screen gets small enough.
     let colorColumn = <Column title="Color" dataIndex="color" key="color"></Column>;
@@ -145,6 +146,21 @@ const App = () => {
         };
     }
 
+    //Adjusting the scrollable area according to the screen size.
+    if (height < 500) {
+        scrollConfig = { y: 200, scrollToFirstRowOnChange: true };
+    } else if (height < 600) {
+        scrollConfig = { y: 300, scrollToFirstRowOnChange: true };
+    } else if (height < 700) {
+        scrollConfig = { y: 350, scrollToFirstRowOnChange: true };
+    } else if (height < 800) {
+        scrollConfig = { y: 400, scrollToFirstRowOnChange: true };
+    } else if (height < 900) {
+        scrollConfig = { y: 450, scrollToFirstRowOnChange: true };
+    } else if (height < 1000) {
+        scrollConfig = { y: 500, scrollToFirstRowOnChange: true };
+    }
+
     return (
         <Layout>
             <Header>
@@ -168,6 +184,7 @@ const App = () => {
                     pagination={{ position: ["bottomCenter"] }}
                     loading={isLoading}
                     expandable={expandableConfig}
+                    scroll={scrollConfig}
                 >
                     <Column
                         title="ID"

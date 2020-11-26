@@ -31,11 +31,6 @@ const App = () => {
             });
     }, [fetchError]);
 
-    //TESTING
-    useEffect(() => {
-        console.log(availabilityData.length);
-    }, [availabilityData]);
-
     //Fetches new product data when the category tab is changed.
     useEffect(() => {
         getProductData(category);
@@ -79,7 +74,6 @@ const App = () => {
         }
 
         let promiseAll = await Promise.all(allRequests);
-        console.log(promiseAll);
 
         return promiseAll;
     };

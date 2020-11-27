@@ -1,6 +1,6 @@
 import "./App.css";
 import "antd/dist/antd.css";
-import { Layout, Menu, Table, notification, PageHeader } from "antd";
+import { Layout, Menu, Table, notification, PageHeader, Typography } from "antd";
 import { useState, useEffect } from "react";
 import useWindowDimensions from "./useWindowDimensions";
 
@@ -171,7 +171,9 @@ const App = () => {
                 </Menu>
             </Header>
             <Content className="content">
-                <PageHeader title="See product availability by clicking the ID"></PageHeader>
+                <Typography.Title style={{ margin: 10 }} level={4}>
+                    Click on product ID to see availability
+                </Typography.Title>
                 <Table
                     dataSource={productData}
                     rowKey="id"

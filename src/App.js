@@ -14,26 +14,23 @@ const App = () => {
     const [productData, setProductData] = useState([]);
     const [availabilityData, setAvailabilityData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [fetchError, setFetchError] = useState(false);
 
     //Fetches new product data when the category tab is changed.
     useEffect(() => {
         getProductData(category);
     }, [category]);
 
-    /* Fetches all data for product availability on component mount and sets it to state. When data is received, ends loading spinner.
-    If there is an error in one of the API requests (empty array), sets the fetchError state, which fires the hook again to re-fetch. */
+    /* Fetches all data for product availability on component mount and sets it to state. */
     useEffect(() => {
         getAvailabilityData();
-    }, [fetchError]);
+    }, []);
 
     //Gets the product details data for a given category that is shown on the table.
     const getProductData = (category) => {
         axios
             /* .get("http://localhost:3001/api/products/" + category) */
             .get("/api/products/" + category)
-            .then((res) => res.data)
-            .then((data) => setProductData(data))
+            .then((res) => setProductData(res.data))
             .catch((err) => console.log(err));
     };
 
@@ -43,17 +40,6 @@ const App = () => {
             /* .get("http://localhost:3001/api/availability") */
             .get("/api/availability")
             .then((res) => {
-                if (res.data === "Sneaky error") {
-                    console.log("Sneaky error detected. Refetching data.");
-                    setFetchError(!fetchError);
-                    return;
-                } else if (res.data === "Random error") {
-                    console.log("Random error detected. Refetching data.");
-                    setFetchError(!fetchError);
-                    return;
-                }
-                console.log("Availability data successfully retrieved");
-                /* setAvailabilityData(res.data.flat()); */
                 setAvailabilityData(res.data);
                 setIsLoading(false);
             })

@@ -1,6 +1,9 @@
 .App {
     text-align: center;
 }
+.info {
+    padding: 1em;
+}
 .content {
     padding: 2em;
 }

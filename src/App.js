@@ -1,12 +1,13 @@
 import "./App.css";
 import axios from "axios";
 import "antd/dist/antd.css";
-import { Layout, Menu, Table } from "antd";
+import { Layout, Menu, Table, Typography } from "antd";
 import { useState, useEffect } from "react";
 import useWindowDimensions from "./useWindowDimensions";
 
 const { Header, Content } = Layout;
 const { Column } = Table;
+const { Title } = Typography;
 
 const App = () => {
     const [category, setCategory] = useState("gloves");
@@ -158,6 +159,9 @@ const App = () => {
                     </Menu.Item>
                 </Menu>
             </Header>
+            <Title className="info" level={4}>
+                Availability is refreshed every 5 minutes. Refresh the page for latest data.
+            </Title>
             <Content className="content">
                 <Table
                     dataSource={productData}
